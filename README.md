@@ -14,6 +14,6 @@ docker run --name openvpn -v /opt/ovpn-data/:/etc/openvpn -d -p 1194:1194 --priv
 
 ### openvpn证书
 
-docker run -v/opt/ovpn-data/:/etc/openvpn --rm -it jianwenz/openvpn easyrsa build-client-full CLIENT nopass
+docker run -v /opt/ovpn-data/:/etc/openvpn --rm -it jianwenz/openvpn easyrsa build-client-full CLIENT nopass
 
 docker run -v /opt/ovpn-data/:/etc/openvpn --rm jianwenz/openvpn ovpn_getclient CLIENT > CLIENT.ovpn
