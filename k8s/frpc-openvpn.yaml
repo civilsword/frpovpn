@@ -2,7 +2,6 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: openvpn
-  namespace: middleware
   labels:
     app: openvpn
 spec:
@@ -46,19 +45,18 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: frpc
-  namespace: middleware
+  name: frpc-z
   labels:
-    app: frpc
+    app: frpc-z
 spec:
   template:
     metadata:
       labels:
-        app: frpc
+        app: frpc-z
     spec:
       containers:
       - image: jianwenz/frpc:0.21
-        name: frpc
+        name: frpc-z
         securityContext: 
           privileged: true
         resources:
@@ -76,14 +74,38 @@ spec:
       volumes:
       - name: data-frpc
         hostPath:
-          path: /data/tools/frpc
+          path: /data/tools/frpc_z
 ---
-apiVersion: v1
-kind: Service
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
-  name: frpc
+  name: frpc-pw
+  labels:
+    app: frpc-pw
 spec:
-  ports:
-  - port: 80
-  selector:
-    app: frpc
+  template:
+    metadata:
+      labels:
+        app: frpc-pw
+    spec:
+      containers:
+      - image: jianwenz/frpc:0.21
+        name: frpc-pw
+        securityContext: 
+          privileged: true
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1024Mi"
+          requests:
+            cpu: "0"
+            memory: "0"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /opt/conf
+          name: data-frpc
+      volumes:
+      - name: data-frpc
+        hostPath:
+          path: /data/tools/frpc_pw
