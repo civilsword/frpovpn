@@ -11,7 +11,7 @@ spec:
         app: openvpn
     spec:
       containers:
-      - image: jianwenz/openvpn
+      - image: jianwenz/openvpn:0.21
         name: openvpn
         securityContext: 
           privileged: true
